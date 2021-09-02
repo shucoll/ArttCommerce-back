@@ -1,10 +1,13 @@
-import Sequelize from 'sequelize';
+import seqPkg from 'sequelize';
 import bcrypt from 'bcryptjs';
 
-import db from '../config/databaseConfig.js';
+import sequelize from '../config/databaseConfig.js';
 
-const User = db.define(
-  'users',
+const { Sequelize, Model } = seqPkg;
+
+class User extends Model {}
+
+User.init(
   {
     name: {
       type: Sequelize.STRING,
@@ -19,22 +22,41 @@ const User = db.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    passwordConfirm: {
+      type: Sequelize.STRING,
+      validate: {
+        customValidator(value) {
+          if (this.password !== value) throw new Error(`Passwords don't match`);
+        },
+      },
+    },
     role: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
         isIn: [['user', 'admin']],
       },
+      defaultValue: 'user',
     },
   },
   {
+    sequelize,
+    modelName: 'users',
+    defaultScope: {
+      attributes: { exclude: ['password', 'passwordConfirm', 'role'] },
+    },
+    scopes: {
+      allFields: {
+        attributes: { exclude: [] },
+      },
+    },
     timestamps: true,
   }
 );
 
-// eslint-disable-next-line no-unused-vars
-User.beforeCreate(async (user, options) => {
+User.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, 12);
+  user.passwordConfirm = undefined;
 });
 
 export default User;

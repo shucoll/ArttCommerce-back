@@ -1,9 +1,12 @@
 /* eslint-disable radix */
-import Sequelize from 'sequelize';
-import db from '../config/databaseConfig.js';
+import seqPkg from 'sequelize';
+import sequelize from '../config/databaseConfig.js';
 
-const Product = db.define(
-  'products',
+const { Sequelize, Model } = seqPkg;
+
+class Product extends Model {}
+
+Product.init(
   {
     name: {
       type: Sequelize.STRING,
@@ -46,6 +49,8 @@ const Product = db.define(
     },
   },
   {
+    sequelize,
+    modelName: 'products',
     timestamps: true,
   }
 );

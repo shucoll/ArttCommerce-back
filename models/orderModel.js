@@ -1,9 +1,12 @@
 /* eslint-disable radix */
-import Sequelize from 'sequelize';
-import db from '../config/databaseConfig.js';
+import seqPkg from 'sequelize';
+import sequelize from '../config/databaseConfig.js';
 
-const Order = db.define(
-  'orders',
+const { Sequelize, Model } = seqPkg;
+
+class Order extends Model {}
+
+Order.init(
   {
     totalPrice: {
       type: Sequelize.INTEGER,
@@ -11,6 +14,8 @@ const Order = db.define(
     },
   },
   {
+    sequelize,
+    modelName: 'orders',
     timestamps: true,
   }
 );

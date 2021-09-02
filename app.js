@@ -15,7 +15,9 @@ import db from './config/databaseConfig.js';
 import sequelizeSync from './config/sequelizeSyncConfig.js';
 
 //import routes here
-// import userRouter from './routes/userRoutes.js';
+import userRouter from './routes/userRoutes.js';
+import productRouter from './routes/productRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
 
 // import { dirname } from 'path';
 // import { fileURLToPath } from 'url';
@@ -66,7 +68,9 @@ app.use(hpp());
 // app.use(compression());
 
 //Define the routes here
-// app.use('/api/v1/users', userRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/orders', orderRouter);
 
 //not available routes
 app.all('*', (req, res, next) => {

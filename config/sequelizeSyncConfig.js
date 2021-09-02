@@ -19,7 +19,7 @@ export default () => {
   });
   Product.belongsToMany(Order, {
     through: OrderItem,
-    onDelete: 'RESTRICT',
+    onDelete: 'NO ACTION',
   });
 
   db.sync()
