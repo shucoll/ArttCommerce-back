@@ -14,6 +14,9 @@ router
     productController.createProduct
   );
 
+// router.route('/categories').get(productController.getAllCategories);
+router.route('/homepageData').get(productController.getHomepageData);
+
 router.route('/:id').get(productController.getProduct);
 
 export default router;

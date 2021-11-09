@@ -15,15 +15,22 @@ Product.init(
     },
     image: {
       type: Sequelize.STRING,
-      // allowNull: false,
+      allowNull: false,
     },
-    // category: {
-    //   type: Sequelize.STRING,
-    //   // allowNull: false,
-    // },
-    description: {
+    imageType: {
       type: Sequelize.STRING,
-      // allowNull: false,
+      allowNull: false,
+    },
+    description: {
+      type: Sequelize.TEXT,
+    },
+    isFeatured: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    isTrending: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
     },
     price: {
       type: Sequelize.INTEGER,

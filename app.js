@@ -40,7 +40,13 @@ sequelizeSync();
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: `${process.env.CLIENT_URL}`,
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 // app.use(express.static(path.join(__dirname, 'public')));
 

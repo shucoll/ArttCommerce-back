@@ -1,4 +1,5 @@
 import Product from '../models/productModel.js';
+import Category from '../models/categoryModel.js';
 import * as factory from './handlerFactory.js';
 import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
@@ -8,8 +9,31 @@ export const getProduct = factory.getOne(Product);
 
 export const getAllProducts = factory.getAll(Product);
 
+// export const getAllCategories = factory.getAll(Category);
+
 export const updateProduct = factory.updateOne(Product);
 // export const deleteProduct = factory.deleteOne(Product);
+
+export const getHomepageData = catchAsync(async (req, res, next) => {
+  const featured = await Product.findAll({
+    limit: 5,
+    where: { isFeatured: true },
+  });
+  // const trending = await Product.findAll({
+  //   limit: 5,
+  //   where: { isTrending: true },
+  // });
+  const categories = await Category.findAll();
+  const newArrivals = await Product.findAll({
+    limit: 5,
+    order: [['createdAt', 'DESC']],
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: [featured, categories, newArrivals],
+  });
+});
 
 export const addProductStock = catchAsync(async (req, res, next) => {
   if (!req.body.incrementValue) {

@@ -29,7 +29,7 @@ OrderItem.init(
     },
     image: {
       type: Sequelize.STRING,
-      // allowNull: false,
+      allowNull: false,
     },
   },
   {

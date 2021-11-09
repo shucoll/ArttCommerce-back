@@ -20,13 +20,22 @@ const createSendToken = (user, statusCode, res) => {
   user.passwordConfirm = undefined;
   user.role = undefined;
 
+  const cookieOptions = {
+    path: '/',
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 //converts to days
+    ),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  res.cookie('jwt', token, cookieOptions);
+
   res.status(statusCode).json({
     status: 'success',
     token,
-
-    data: {
-      user,
-    },
+    data: user,
   });
 };
 
@@ -74,6 +83,8 @@ export const protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
+
+  // const token = req.cookies.jwt || '';
 
   if (!token) {
     return next(
