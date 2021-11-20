@@ -5,7 +5,24 @@ import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
 
 export const createProduct = factory.createOne(Product);
-export const getProduct = factory.getOne(Product);
+export const getProduct = catchAsync(async (req, res, next) => {
+  const doc = await Product.findOne({
+    where: {
+      slug: req.params.slug,
+    },
+  });
+
+  if (!doc) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: doc,
+    },
+  });
+});
 
 export const getAllProducts = factory.getAll(Product);
 
@@ -18,12 +35,13 @@ export const getHomepageData = catchAsync(async (req, res, next) => {
   const featured = await Product.findAll({
     limit: 5,
     where: { isFeatured: true },
+    order: [['imageType', 'DESC']],
   });
   // const trending = await Product.findAll({
   //   limit: 5,
   //   where: { isTrending: true },
   // });
-  const categories = await Category.findAll();
+  const categories = await Category.findAll({ order: [['name', 'ASC']] });
   const newArrivals = await Product.findAll({
     limit: 5,
     order: [['createdAt', 'DESC']],

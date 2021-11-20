@@ -1,5 +1,6 @@
 /* eslint-disable radix */
 import seqPkg from 'sequelize';
+import slugify from 'slugify';
 import sequelize from '../config/databaseConfig.js';
 
 const { Sequelize, Model } = seqPkg;
@@ -13,9 +14,16 @@ Product.init(
       allowNull: false,
       unique: true,
     },
+    slug: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
     image: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    artist: {
+      type: Sequelize.STRING,
     },
     imageType: {
       type: Sequelize.STRING,
@@ -61,5 +69,9 @@ Product.init(
     timestamps: true,
   }
 );
+
+Product.beforeCreate(async (product) => {
+  product.slug = slugify(product.name, { lower: true });
+});
 
 export default Product;

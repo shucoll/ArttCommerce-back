@@ -17,6 +17,6 @@ router
 // router.route('/categories').get(productController.getAllCategories);
 router.route('/homepageData').get(productController.getHomepageData);
 
-router.route('/:id').get(productController.getProduct);
+router.route('/:slug').get(productController.getProduct);
 
 export default router;

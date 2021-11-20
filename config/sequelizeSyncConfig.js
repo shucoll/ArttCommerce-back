@@ -15,9 +15,7 @@ export default () => {
   Order.belongsTo(User, { onDelete: 'RESTRICT' });
   User.hasMany(Order);
 
-  Product.belongsTo(Category, {
-    foreignKey: 'categoryId',
-  });
+  Product.belongsTo(Category);
   Category.hasMany(Product);
 
   Order.belongsToMany(Product, {
