@@ -5,6 +5,7 @@ import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
 import OrderItem from '../models/orderItemModel.js';
+import Address from '../models/addressModel.js';
 // eslint-disable-next-line no-unused-vars
 import Category from '../models/categoryModel.js';
 
@@ -14,6 +15,9 @@ export default () => {
 
   Order.belongsTo(User, { onDelete: 'RESTRICT' });
   User.hasMany(Order);
+
+  Order.belongsTo(Address);
+  Address.hasMany(Order);
 
   Product.belongsTo(Category);
   Category.hasMany(Product);

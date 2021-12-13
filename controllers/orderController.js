@@ -1,11 +1,16 @@
 /* eslint-disable no-await-in-loop */
+
+import stripeFun from 'stripe';
 import db from '../config/databaseConfig.js';
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
+import Address from '../models/addressModel.js';
 // import User from '../models/userModel.js';
 import * as factory from './handlerFactory.js';
 import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
+
+const stripe = stripeFun(process.env.STRIPE_SECRET_TEST_KEY);
 
 export const setCurrentUser = (req, res, next) => {
   req.query.userId = req.user.dataValues.id;
@@ -20,8 +25,31 @@ export const createOrder = catchAsync(async (req, res, next) => {
   // req.body.userId = req.user.dataValues.id;
   const t = await db.transaction();
 
+  const {
+    firstName,
+    lastName,
+    address,
+    email,
+    phone,
+    city,
+    country,
+    postalCode,
+  } = req.body.shippingAddress;
+
+  const addressDoc = await Address.create(
+    { firstName, lastName, address, email, city, phone, country, postalCode },
+    {
+      transaction: t,
+    }
+  );
+
   const orderDoc = await Order.create(
-    { userId: req.user.dataValues.id, totalPrice: 0 },
+    {
+      userId: req.user.dataValues.id,
+      addressId: addressDoc.dataValues.id,
+      paymentId: 'null',
+      totalPrice: 0,
+    },
     {
       transaction: t,
     }
@@ -77,8 +105,32 @@ export const createOrder = catchAsync(async (req, res, next) => {
       throw new AppError(`An error occurred in placing the order`);
     }
 
+    // await Order.update(
+    //   { totalPrice: total },
+    //   {
+    //     where: {
+    //       id: orderDoc.id,
+    //     },
+    //     returning: true,
+    //     transaction: t,
+    //   }
+    // );
+
+    const payment = await stripe.paymentIntents.create({
+      amount: total * 100,
+      currency: 'USD',
+      description: 'Your Company Description',
+      payment_method: req.body.transaction_id,
+      confirm: true,
+    });
+
+    // console.log('payment', payment);
+
     const [, [updatedOrderDoc]] = await Order.update(
-      { totalPrice: total },
+      {
+        totalPrice: total,
+        paymentId: payment.id,
+      },
       {
         where: {
           id: orderDoc.id,

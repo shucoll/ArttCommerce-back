@@ -1,0 +1,26 @@
+[
+  {
+    "name": "floral",
+    "image": "https://res.cloudinary.com/blog-app1/image/upload/v1636957444/ecommerce/product-images/flowers-in-the-white_oq9b14.jpg",
+    "createdAt": "2021-10-28 20:01:14.16+05:45",
+    "updatedAt": "2021-10-28 20:01:14.16+05:45"
+  },
+  {
+    "name": "people",
+    "image": "https://res.cloudinary.com/blog-app1/image/upload/v1636957441/ecommerce/product-images/confitte-eyes_eckrjm.jpg",
+    "createdAt": "2021-10-28 20:01:14.16+05:45",
+    "updatedAt": "2021-10-28 20:01:14.16+05:45"
+  },
+  {
+    "name": "places",
+    "image": "https://res.cloudinary.com/blog-app1/image/upload/v1636957441/ecommerce/product-images/river-and-trees_g1ylms.jpg",
+    "createdAt": "2021-10-28 20:01:14.16+05:45",
+    "updatedAt": "2021-10-28 20:01:14.16+05:45"
+  },
+  {
+    "name": "abstract",
+    "image": "https://res.cloudinary.com/blog-app1/image/upload/v1636957448/ecommerce/product-images/confitte-colors_n1wpnb.jpg",
+    "createdAt": "2021-10-28 20:01:14.16+05:45",
+    "updatedAt": "2021-10-28 20:01:14.16+05:45"
+  }
+]

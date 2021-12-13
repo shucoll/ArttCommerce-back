@@ -1,0 +1,42 @@
+[
+  {
+    "id": 3,
+    "name": "admin",
+    "email": "admin@email.com",
+    "password": "$2a$12$kCIe8OqufT2FayG9L2fFuOU.ND1sumsaXxLsgjVvOKrFfB5xfshVO",
+    "passwordConfirm": "",
+    "role": "admin",
+    "createdAt": "2021-09-01 19:11:05.624+05:45",
+    "updatedAt": "2021-09-01 19:11:05.624+05:45"
+  },
+  {
+    "id": 4,
+    "name": "User 1",
+    "email": "user1@email.com",
+    "password": "$2a$12$YLUhyb/I1wrQPN4eDDEOduu5FjwC.cYpsswgRFT1Cg/vwhypGfaE6",
+    "passwordConfirm": "",
+    "role": "user",
+    "createdAt": "2021-09-01 19:12:34.935+05:45",
+    "updatedAt": "2021-09-01 19:12:34.935+05:45"
+  },
+  {
+    "id": 6,
+    "name": "User 2",
+    "email": "user2email.com",
+    "password": "$2a$12$YgDZDmiRP08WSXvOviwDbeAv/s.eD6sJNh3KdfCzIe0s1iglleqqu",
+    "passwordConfirm": "",
+    "role": "user",
+    "createdAt": "2021-09-01 19:17:45.137+05:45",
+    "updatedAt": "2021-09-01 19:17:45.137+05:45"
+  },
+  {
+    "id": 7,
+    "name": "John Smith",
+    "email": "shuvam@test.com",
+    "password": "$2a$12$LHyg00L7liQJEs25nIOaB.ws8rEaoNux498hdaW.UXPu8JvbTcXEm",
+    "passwordConfirm": "",
+    "role": "user",
+    "createdAt": "2021-10-26 20:07:20.123+05:45",
+    "updatedAt": "2021-10-26 20:07:20.123+05:45"
+  }
+]
