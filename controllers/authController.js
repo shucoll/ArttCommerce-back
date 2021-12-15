@@ -86,7 +86,7 @@ export const protect = catchAsync(async (req, res, next) => {
 
   // const token = req.cookies.jwt || '';
 
-  if (!token) {
+  if (!token || token === 'null') {
     return next(
       new AppError('You are not logged in! Please log in to get access.', 401)
     );

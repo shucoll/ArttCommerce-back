@@ -57,7 +57,9 @@ export const createOrder = catchAsync(async (req, res, next) => {
 
   try {
     let total = 0;
-
+    if (!req.body.orderItems || req.body.orderItems.length < 1) {
+      throw new AppError(`Needed at least one order item`);
+    }
     // eslint-disable-next-line no-restricted-syntax
     for (const product of req.body.orderItems) {
       if (product.quantity <= 0) {
@@ -105,17 +107,6 @@ export const createOrder = catchAsync(async (req, res, next) => {
       throw new AppError(`An error occurred in placing the order`);
     }
 
-    // await Order.update(
-    //   { totalPrice: total },
-    //   {
-    //     where: {
-    //       id: orderDoc.id,
-    //     },
-    //     returning: true,
-    //     transaction: t,
-    //   }
-    // );
-
     const payment = await stripe.paymentIntents.create({
       amount: total * 100,
       currency: 'USD',
@@ -144,7 +135,7 @@ export const createOrder = catchAsync(async (req, res, next) => {
 
     res.status(201).json({
       status: 'success',
-      data: updatedOrderDoc,
+      data: { orderTotal: updatedOrderDoc.totalPrice },
     });
   } catch (err) {
     await t.rollback();
