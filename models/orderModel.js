@@ -21,6 +21,9 @@ Order.init(
     sequelize,
     modelName: 'orders',
     timestamps: true,
+    defaultScope: {
+      attributes: { exclude: ['paymentId'] },
+    },
   }
 );
 

@@ -1,5 +1,4 @@
 import Sequelize from 'sequelize';
-// import db from '../config/databaseConfig.js';
 
 import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
@@ -7,6 +6,7 @@ import AppError from '../utils/appError.js';
 import User from '../models/userModel.js';
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
+import Address from '../models/addressModel.js';
 
 const { Op } = Sequelize;
 
@@ -100,7 +100,7 @@ export const getAll = (Model) =>
     let includeObj;
     if (Model === Order)
       includeObj = {
-        include: [User, Product],
+        include: [User, Product, Address],
       };
 
     let whereObj;
