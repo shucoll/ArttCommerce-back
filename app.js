@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit';
 import xss from 'xss-clean';
 import hpp from 'hpp';
 import cors from 'cors';
-// import compression from 'compression';
+import compression from 'compression';
 
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
@@ -40,13 +40,7 @@ sequelizeSync();
 
 const app = express();
 
-const corsOptions = {
-  origin: `${process.env.CLIENT_URL}`,
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 // app.use(express.static(path.join(__dirname, 'public')));
 
@@ -71,7 +65,7 @@ app.use(xss());
 
 app.use(hpp());
 
-// app.use(compression());
+app.use(compression());
 
 //Define the routes here
 app.use('/api/v1/users', userRouter);
