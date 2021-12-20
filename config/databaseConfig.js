@@ -5,14 +5,13 @@ dotenv.config();
 
 export default new Sequelize(
   `${process.env.DATABASE}`,
-  'postgres',
+  `${process.env.DATABASE_USERNAME}`,
   `${process.env.DATABASE_PASSWORD}`,
   {
-    host: 'localhost',
+    host: `${process.env.DATABASE_HOST}`,
+    port: `${process.env.DATABASE_PORT}`,
     dialect: 'postgres',
     logging: false,
-    // timezone: '+00:00',
-    // operatorsAliases: false,
 
     pool: {
       max: 5,
