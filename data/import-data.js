@@ -33,7 +33,7 @@ const importData = async () => {
   try {
     // await User.bulkCreate(users);
     // await Category.bulkCreate(categories); 
-    // await Product.bulkCreate(products);
+    await Product.bulkCreate(products);
 
     console.log('Data successfully loaded!');
   } catch (err) {
@@ -44,9 +44,9 @@ const importData = async () => {
 
 const deleteData = async () => {
   try {
-    await Category.destroy();
-    await Product.destroy();
-    await User.destroy();
+    // await Category.destroy();
+    // await Product.destroy();
+    // await User.destroy();
     console.log('Data successfully deleted!');
   } catch (err) {
     console.log(err);
