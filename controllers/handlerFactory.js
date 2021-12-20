@@ -19,9 +19,7 @@ export const createOne = (Model) =>
 
     res.status(201).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 
@@ -40,9 +38,7 @@ export const updateOne = (Model) =>
 
     res.status(200).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 
@@ -59,9 +55,7 @@ export const getOne = (Model) =>
     }
     res.status(200).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 
@@ -150,8 +144,6 @@ export const getAll = (Model) =>
       status: 'success',
       totalResults: totalDocLength,
       results: doc.length,
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });

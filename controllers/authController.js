@@ -75,6 +75,37 @@ export const login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+export const updatePassword = catchAsync(async (req, res, next) => {
+  const user = await User.scope('allFields').findOne({
+    where: {
+      id: req.user.dataValues.id,
+    },
+  });
+
+  if (req.body.password !== req.body.passwordConfirm) {
+    return next(new AppError(`Passwords don't match`, 400));
+  }
+
+  if (!(await correctPassword(req.body.passwordCurrent, user.password))) {
+    return next(new AppError('Your current password is wrong', 400));
+  }
+
+  const hashedPassword = await bcrypt.hash(req.body.password, 12);
+
+  await User.update(
+    { password: hashedPassword },
+    {
+      where: {
+        id: req.user.dataValues.id,
+      },
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
+
 export const protect = catchAsync(async (req, res, next) => {
   let token;
   if (
