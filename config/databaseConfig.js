@@ -12,6 +12,8 @@ export default new Sequelize(
     port: `${process.env.DATABASE_PORT}`,
     dialect: 'postgres',
     logging: false,
+
+    //comment out this dialectOption in local
     dialectOptions: {
       ssl: {
         require: true,

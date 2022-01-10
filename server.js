@@ -18,10 +18,10 @@ process.on('unhandledRejection', (err) => {
   });
 });
 
-//Specific For heroku
-// process.on('SIGTERM', () => {
-//   console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
-//   server.close(() => {
-//     console.log('💥 Process terminated!');
-//   });
-// });
+// Specific For heroku
+process.on('SIGTERM', () => {
+  console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
+  server.close(() => {
+    console.log('💥 Process terminated!');
+  });
+});
