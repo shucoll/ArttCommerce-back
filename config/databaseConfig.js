@@ -14,12 +14,12 @@ export default new Sequelize(
     logging: false,
 
     //comment out this dialectOption in local
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
+    // dialectOptions: {
+    //   ssl: {
+    //     require: true,
+    //     rejectUnauthorized: false,
+    //   },
+    // },
 
     pool: {
       max: 5,
