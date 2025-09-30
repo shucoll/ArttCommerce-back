@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import dns from 'dns';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,6 +20,9 @@ export default new Sequelize(
         require: true,
         rejectUnauthorized: false,
       },
+
+      // Force pg to resolve using IPv4 only:
+      lookup: (hostname, opts, cb) => dns.lookup(hostname, { family: 4 }, cb),
     },
 
     pool: {
