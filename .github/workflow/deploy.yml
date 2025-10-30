@@ -1,0 +1,67 @@
+name: Deploy (Droplet)
+
+on:
+  workflow_run:
+    workflows: ['Build & Push (GHCR)']
+    types: ['completed']
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    env:
+      APP_DIR: /opt/ecommerce
+      GH_OWNER: ${{ github.repository_owner }}
+      GH_REPO: ${{ github.event.workflow_run.head_repository.name }}
+      GIT_SHA: ${{ github.event.workflow_run.head_sha }}
+
+    steps:
+      - name: Checkout repo at built commit
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.workflow_run.head_repository.full_name }}
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DO_SSH_KEY }}
+
+      - name: Push manifests to server & template vars
+        run: |
+          rsync -avz -e "ssh -p ${{ secrets.DO_SSH_PORT || 22 }}" \
+            deploy/ ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:${APP_DIR}/
+
+          ssh -p ${{ secrets.DO_SSH_PORT || 22 }} ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "
+            set -Eeuo pipefail
+            sudo mkdir -p ${APP_DIR}
+            sudo chown -R \$USER:\$USER ${APP_DIR}
+            # Ensure .env exists (you created it in Step 3)
+            [ -f ${APP_DIR}/.env ] || (echo 'ERROR: .env missing at ${APP_DIR}/.env' && exit 1)
+
+            # Template Caddyfile placeholders
+            sed -i 's/{APP_DOMAIN}/${{ secrets.APP_DOMAIN }}/g; s/{LETSENCRYPT_EMAIL}/${{ secrets.LE_EMAIL }}/g' ${APP_DIR}/Caddyfile
+
+            # Freeze the exact image tag by SHA
+            sed -i 's#ghcr.io/\\${GH_OWNER}/\\${GH_REPO}:sha-\\${GIT_SHA}#ghcr.io/${{ env.GH_OWNER }}/${{ env.GH_REPO }}:sha-${{ env.GIT_SHA }}#' ${APP_DIR}/docker-compose.prod.yml
+          "
+
+      - name: Deploy with Compose
+        run: |
+          ssh -p ${{ secrets.DO_SSH_PORT || 22 }} ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "
+            set -Eeuo pipefail
+            cd ${APP_DIR}
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker image prune -f
+          "
+
+      - name: Show container status
+        run: |
+          ssh -p ${{ secrets.DO_SSH_PORT || 22 }} ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} \
+            "docker compose -f ${APP_DIR}/docker-compose.prod.yml ps"

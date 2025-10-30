@@ -32,7 +32,6 @@
     "updatedAt": "2021-11-15 20:32:25.97+05:45",
     "userId": 3,
     "categoryName": "abstract"
-    
   },
   {
     "id": 5,
@@ -50,7 +49,6 @@
     "updatedAt": "2021-11-15 20:35:07.8+05:45",
     "userId": 3,
     "categoryName": "places"
-    
   },
   {
     "id": 6,
@@ -68,7 +66,6 @@
     "updatedAt": "2021-11-15 20:36:00.324+05:45",
     "userId": 3,
     "categoryName": "abstract"
-    
   },
   {
     "id": 7,
@@ -86,7 +83,6 @@
     "updatedAt": "2021-11-15 20:37:41.794+05:45",
     "userId": 3,
     "categoryName": "abstract"
-    
   },
   {
     "id": 8,
@@ -104,7 +100,6 @@
     "updatedAt": "2021-11-15 22:13:14.822+05:45",
     "userId": 3,
     "categoryName": "floral"
-    
   },
   {
     "id": 9,
@@ -122,7 +117,6 @@
     "updatedAt": "2021-12-12 15:40:51.684+05:45",
     "userId": 3,
     "categoryName": "people"
-    
   },
   {
     "id": 10,
@@ -140,7 +134,6 @@
     "updatedAt": "2021-11-15 20:40:10.951+05:45",
     "userId": 3,
     "categoryName": "people"
-    
   },
   {
     "id": 11,
@@ -158,7 +151,6 @@
     "updatedAt": "2021-11-15 20:40:55.992+05:45",
     "userId": 3,
     "categoryName": "places"
-    
   },
   {
     "id": 12,
@@ -176,7 +168,6 @@
     "updatedAt": "2021-11-15 20:41:32.453+05:45",
     "userId": 3,
     "categoryName": "places"
-    
   },
   {
     "id": 13,
@@ -194,7 +185,6 @@
     "updatedAt": "2021-11-15 20:41:58.941+05:45",
     "userId": 3,
     "categoryName": "places"
-    
   },
   {
     "id": 14,
@@ -211,7 +201,6 @@
     "createdAt": "2021-11-15 20:43:21.808+05:45",
     "updatedAt": "2021-11-15 20:43:21.808+05:45",
     "userId": 3
-    
   },
   {
     "id": 15,
@@ -228,7 +217,6 @@
     "createdAt": "2021-11-15 21:06:31.952+05:45",
     "updatedAt": "2021-11-15 21:06:31.952+05:45",
     "userId": 3
-    
   },
   {
     "id": 16,
@@ -262,7 +250,6 @@
     "updatedAt": "2021-11-15 21:09:55.899+05:45",
     "userId": 3,
     "categoryName": "people"
-    
   },
   {
     "id": 18,
@@ -280,7 +267,6 @@
     "updatedAt": "2021-12-12 15:40:51.696+05:45",
     "userId": 3,
     "categoryName": "people"
-    
   },
   {
     "id": 19,
@@ -298,7 +284,6 @@
     "updatedAt": "2021-11-15 21:11:25.376+05:45",
     "userId": 3,
     "categoryName": "abstract"
-    
   },
   {
     "id": 20,
@@ -316,7 +301,6 @@
     "updatedAt": "2021-11-16 14:19:33.344+05:45",
     "userId": 3,
     "categoryName": "floral"
-    
   },
   {
     "id": 21,
@@ -334,7 +318,5 @@
     "updatedAt": "2021-11-15 21:16:34.907+05:45",
     "userId": 3,
     "categoryName": "places"
-    
   }
 ]
-

@@ -1,0 +1,22 @@
+{
+  email {LETSENCRYPT_EMAIL}
+  # optional: admin off
+}
+
+{APP_DOMAIN} {
+  encode zstd gzip
+  @health path /healthz
+  handle @health {
+    # Fast path for uptime checks
+    reverse_proxy api:8080
+  }
+
+  reverse_proxy api:8080
+
+  header {
+    # basic hardening; keep it simple for now
+    X-Frame-Options DENY
+    X-Content-Type-Options nosniff
+    Referrer-Policy no-referrer-when-downgrade
+  }
+}
