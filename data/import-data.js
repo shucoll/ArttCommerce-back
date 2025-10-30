@@ -32,7 +32,7 @@ const categories = JSON.parse(
 const importData = async () => {
   try {
     // await User.bulkCreate(users);
-    // await Category.bulkCreate(categories); 
+    // await Category.bulkCreate(categories);
     await Product.bulkCreate(products);
 
     console.log('Data successfully loaded!');

@@ -1,0 +1,39 @@
+version: "3.9"
+
+name: ecommerce
+services:
+  api:
+    image: ghcr.io/${GH_OWNER}/${GH_REPO}:sha-${GIT_SHA} 
+    restart: always
+    env_file:
+      - /opt/ecommerce/.env
+    ports:
+      - "127.0.0.1:8080:8080"                            
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks: [web]
+
+  caddy:
+    image: caddy:2
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /opt/ecommerce/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      api:
+        condition: service_healthy
+    networks: [web]
+
+networks:
+  web: {}
+
+volumes:
+  caddy_data: {}
+  caddy_config: {}
