@@ -11,7 +11,7 @@
     "debug": "ndb server.js",
     "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
     "test:watch": "jest --watch",
-    "lint": "eslint src --ext .js",
+    "lint": "eslint --ext .js",
     "format": "prettier --write ."
   },
   "author": "Shuvam Shiwakoti",
