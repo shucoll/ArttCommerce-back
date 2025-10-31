@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 name: ecommerce
 services:
@@ -8,25 +8,21 @@ services:
     env_file:
       - /opt/ecommerce/.env
     ports:
-      - '127.0.0.1:8080:8080'
+      - "127.0.0.1:8080:8080"                            
     healthcheck:
-    test:
-      [
-        'CMD-SHELL',
-        'node -e "require(''http'').get(''http://localhost:''+(process.env.PORT||8080)+''/healthz'', r=>process.exit(r.statusCode===200?0:1)).on(''error'',()=>process.exit(1))"',
-      ]
-    interval: 10s
-    timeout: 3s
-    retries: 10
-    start_period: 30s
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:'+(process.env.PORT||8080)+'/healthz', r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
     networks: [web]
 
   caddy:
     image: caddy:2
     restart: always
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     volumes:
       - /opt/ecommerce/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
