@@ -1,11 +1,11 @@
 name: Build & Push (GHCR)
 
 on:
+  workflow_dispatch:
   push:
     branches: ['main']
     paths-ignore:
       - '**.md'
-      - '.github/**'
 
 permissions:
   contents: read
