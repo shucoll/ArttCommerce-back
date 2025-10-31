@@ -32,6 +32,17 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DO_SSH_KEY }}
 
+      - name: Trust droplet host key (known_hosts)
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -4 -p "${{ secrets.DO_SSH_PORT || 22 }}" -H ${{ secrets.DO_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+      
+      - name: SSH smoke test
+        run: |
+          ssh -p ${{ secrets.DO_SSH_PORT || 22 }} ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "echo 'connected to:' \$(hostname) && mkdir -p /opt/ecommerce && ls -la /opt/ecommerce"
+
       - name: Push manifests to server & template vars
         run: |
           rsync -avz -e "ssh -p ${{ secrets.DO_SSH_PORT || 22 }}" \
