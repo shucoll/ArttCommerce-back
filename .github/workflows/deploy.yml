@@ -45,13 +45,15 @@ jobs:
 
       - name: Push manifests to server & template vars
         run: |
+
+          # rsync deploy/ folder (contains Caddyfile + docker-compose.prod.yml)
           rsync -avz -e "ssh -p ${{ secrets.DO_SSH_PORT || 22 }}" \
             deploy/ ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:${APP_DIR}/
 
+          # template on server
           ssh -p ${{ secrets.DO_SSH_PORT || 22 }} ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "
             set -Eeuo pipefail
-            mkdir -p ${APP_DIR}
-            chown -R \$USER:\$USER ${APP_DIR}
+            APP_DIR=/opt/ecommerce
 
             # Ensure .env exists
             [ -f ${APP_DIR}/.env ] || (echo 'ERROR: .env missing at ${APP_DIR}/.env' && exit 1)
