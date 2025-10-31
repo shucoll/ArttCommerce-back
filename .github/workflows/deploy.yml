@@ -61,9 +61,10 @@ jobs:
             # Template Caddyfile placeholders
             sed -i 's/{APP_DOMAIN}/${{ secrets.APP_DOMAIN }}/g; s/{LETSENCRYPT_EMAIL}/${{ secrets.LE_EMAIL }}/g' ${APP_DIR}/Caddyfile
 
-            # 2) Compose image substitution (robust even with slashes)
-            IMAGE='ghcr.io/${{ env.GH_OWNER }}/${{ env.GH_REPO }}:sha-${{ env.GIT_SHA }}'
-            ESC_IMAGE=\${IMAGE//\//\\/}   # escape slashes for sed
+            # Image placeholder
+            REPO_LC=\$(echo '${{ env.GH_REPO }}' | tr '[:upper:]' '[:lower:]')
+            IMAGE=\"ghcr.io/${{ env.GH_OWNER }}/\${REPO_LC}:sha-${{ env.GIT_SHA }}\"
+            ESC_IMAGE=\${IMAGE//\//\\/}
             sed -i \"s#__IMAGE__#\${ESC_IMAGE}#\" \$APP_DIR/docker-compose.prod.yml
 
             # sanity
