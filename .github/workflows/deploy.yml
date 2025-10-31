@@ -50,8 +50,8 @@ jobs:
 
           ssh -p ${{ secrets.DO_SSH_PORT || 22 }} ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "
             set -Eeuo pipefail
-            sudo mkdir -p ${APP_DIR}
-            sudo chown -R \$USER:\$USER ${APP_DIR}
+            mkdir -p ${APP_DIR}
+            chown -R \$USER:\$USER ${APP_DIR}
             # Ensure .env exists (you created it in Step 3)
             [ -f ${APP_DIR}/.env ] || (echo 'ERROR: .env missing at ${APP_DIR}/.env' && exit 1)
 
