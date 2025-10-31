@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 8080;
 
     sequelizeSync();
 
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT || 8080, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
     });
 
