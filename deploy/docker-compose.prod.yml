@@ -3,7 +3,7 @@ version: "3.9"
 name: ecommerce
 services:
   api:
-    image: ghcr.io/${GH_OWNER}/${GH_REPO}:sha-${GIT_SHA} 
+    image: __IMAGE__
     restart: always
     env_file:
       - /opt/ecommerce/.env

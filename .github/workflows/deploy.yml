@@ -52,14 +52,20 @@ jobs:
             set -Eeuo pipefail
             mkdir -p ${APP_DIR}
             chown -R \$USER:\$USER ${APP_DIR}
-            # Ensure .env exists (you created it in Step 3)
+
+            # Ensure .env exists
             [ -f ${APP_DIR}/.env ] || (echo 'ERROR: .env missing at ${APP_DIR}/.env' && exit 1)
 
             # Template Caddyfile placeholders
             sed -i 's/{APP_DOMAIN}/${{ secrets.APP_DOMAIN }}/g; s/{LETSENCRYPT_EMAIL}/${{ secrets.LE_EMAIL }}/g' ${APP_DIR}/Caddyfile
 
-            # Freeze the exact image tag by SHA
-            sed -i 's#ghcr.io/\\${GH_OWNER}/\\${GH_REPO}:sha-\\${GIT_SHA}#ghcr.io/${{ env.GH_OWNER }}/${{ env.GH_REPO }}:sha-${{ env.GIT_SHA }}#' ${APP_DIR}/docker-compose.prod.yml
+            # 2) Compose image substitution (robust even with slashes)
+            IMAGE='ghcr.io/${{ env.GH_OWNER }}/${{ env.GH_REPO }}:sha-${{ env.GIT_SHA }}'
+            ESC_IMAGE=\${IMAGE//\//\\/}   # escape slashes for sed
+            sed -i \"s#__IMAGE__#\${ESC_IMAGE}#\" \$APP_DIR/docker-compose.prod.yml
+
+            # sanity
+            grep -n 'image:' \$APP_DIR/docker-compose.prod.yml || true
           "
 
       - name: Deploy with Compose
